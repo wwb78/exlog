@@ -1,0 +1,53 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/backend/Dockerfile
+    container_name: exlog-backend
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env
+    ports:
+      - "8000:${DJANGO_PORT}"
+    environment:
+      - DEBUG=${DJANGO_DEBUG}
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+    # command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend/Dockerfile
+    container_name: exlog-frontend
+    volumes:
+      - ./frontend:/app
+    env_file:
+      - .env
+    ports:
+      - "5173:${FRONTEND_PORT}"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    stdin_open: true
+    tty: true
+    # command: sh -c "npm run dev -- --host"
+
+  db:
+    image: mysql:8.0
+    container_name: exlog-db
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:${MYSQL_PORT}"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
