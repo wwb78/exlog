@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
+# Create your models here.
 class Category(models.Model):
     """学習カテゴリモデル"""
     name = models.CharField(max_length=100, verbose_name="カテゴリ名")

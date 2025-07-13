@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -9,6 +10,7 @@ from .models import Category, LearningLog, UserStat
 from .serializers import CategorySerializer, LearningLogSerializer, UserStatSerializer
 
 
+# Create your views here.
 class CategoryViewSet(viewsets.ModelViewSet):
     """カテゴリ管理ViewSet"""
     serializer_class = CategorySerializer
